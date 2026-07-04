@@ -1,0 +1,116 @@
+/* Page-load transition: whole page fades in once first paint has happened */
+body {
+  animation: page-fade-in 500ms ease-out both;
+}
+
+@keyframes page-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Staggered reveal system: works for scroll-triggered sections AND the
+   on-load hero alike. JS adds .is-visible to the .stagger-group; each
+   .stagger-item inside reads its own --stagger-index for a cascading delay,
+   independent of DOM nesting (so a group of buttons nested in a wrapper div
+   still cascades in document order). */
+.stagger-item {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 650ms cubic-bezier(0.16, 1, 0.3, 1), transform 650ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: calc(var(--stagger-index, 0) * var(--stagger-step));
+}
+
+.stagger-group.is-visible .stagger-item {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Hero staggers on load rather than on scroll */
+.hero .stagger-item {
+  transform: translateY(14px);
+}
+
+/* Ambient background glow: a large soft yellow radial that slowly
+   breathes in place, so the page never feels static even before any
+   interaction. Lives on .hero__glow-inner, which fills its parent via
+   inset: 0 — the parent .hero__glow owns the translateY(-50%) centering
+   and the cursor-follow transform, so this only ever needs to scale. */
+@keyframes glow-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+}
+
+/* Under-construction status badge: a soft pulsing ring on the dot,
+   reads as "live/in progress" rather than a static label. */
+.hero__badge-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--color-accent-yellow);
+  flex-shrink: 0;
+  animation: badge-pulse 2.2s ease-in-out infinite;
+}
+
+@keyframes badge-pulse {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-accent-yellow) 55%, transparent);
+  }
+  70% {
+    box-shadow: 0 0 0 7px transparent;
+  }
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+  }
+}
+
+/* Decorative rings around the portrait rotate at different, very slow
+   speeds in opposite directions — reads as quiet orbital motion rather
+   than an obvious spin. */
+@keyframes orbit-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Floating service tags bob independently (staggered via animation-delay
+   inline in the HTML) so they read as loosely orbiting the portrait. */
+@keyframes tag-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+/* Button and portrait micro-interactions live in components.css/layout.css;
+   this file only owns page-level and ambient motion. */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    transition-delay: 0ms !important;
+    scroll-behavior: auto !important;
+  }
+}

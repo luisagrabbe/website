@@ -1,0 +1,35 @@
+:root {
+  /* Brand palette */
+  --color-primary: #0F0E4C;
+  --color-cta: #7EA0E1;
+  --color-highlight-yellow: #FFFFAF;
+  --color-white: #FFFFFF;
+  --color-light-blue: #BFD8F1;
+  --color-beige: #F3E8D6;
+  --color-accent-yellow: #FFD621;
+
+  /* Semantic tokens */
+  --color-text-on-dark: var(--color-white);
+  --color-text-on-light: var(--color-primary);
+  --color-btn-bg: var(--color-cta);
+  --color-btn-text: var(--color-primary);
+  --color-focus-ring: var(--color-accent-yellow);
+
+  --font-heading: 'The Seasons', 'Playfair Display', Georgia, serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 2rem;
+  --space-lg: 4rem;
+  --space-xl: 7rem;
+
+  --radius-md: 0.75rem;
+  --radius-lg: 1.5rem;
+  --transition-fast: 200ms ease;
+  --transition-base: 700ms cubic-bezier(0.16, 1, 0.3, 1);
+  --stagger-step: 90ms;
+
+  --container-max: 1120px;
+  --container-hero: 1320px;
+}

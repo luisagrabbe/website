@@ -1,0 +1,373 @@
+/* Hero — the entire page during the under-construction phase */
+.hero {
+  position: relative;
+  background: var(--color-white);
+  color: var(--color-text-on-light);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-md) var(--space-md) var(--space-lg);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+@media (min-width: 700px) {
+  .hero {
+    padding: var(--space-lg) var(--space-xl) var(--space-xl);
+  }
+}
+
+/* Split into an outer wrapper (JS moves this toward the cursor) and an
+   inner layer (owns the CSS breathing animation) — a JS-set inline
+   transform on the same element the animation targets would just get
+   overridden by the animation every frame, so the two motions need
+   separate elements to compose cleanly. */
+.hero__glow {
+  position: absolute;
+  top: 50%;
+  right: 6%;
+  width: min(65vw, 800px);
+  aspect-ratio: 1;
+  transform: translateY(-50%);
+  z-index: -1;
+  pointer-events: none;
+  transition: transform 450ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hero__glow-inner {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--color-accent-yellow) 50%, transparent) 0%,
+    color-mix(in srgb, var(--color-highlight-yellow) 45%, transparent) 35%,
+    color-mix(in srgb, var(--color-light-blue) 22%, transparent) 58%,
+    transparent 75%
+  );
+  filter: blur(60px);
+  opacity: 0.85;
+  animation: glow-breathe 9s ease-in-out infinite;
+  transition: opacity 600ms ease, filter 600ms ease;
+}
+
+.hero.is-engaged .hero__glow-inner {
+  opacity: 1;
+  filter: blur(48px);
+}
+
+.hero__topbar {
+  width: 100%;
+  max-width: var(--container-hero);
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+
+.hero__logo {
+  height: 2.25rem;
+  width: auto;
+  transition: transform 400ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* This has to come after the base rule above — a same-specificity media
+   query declared earlier in the file loses to a later plain rule, which is
+   exactly the bug that shipped here the first time. */
+@media (min-width: 700px) {
+  .hero__logo {
+    height: 2.75rem;
+  }
+}
+
+.hero__logo:hover {
+  transform: scale(1.08) rotate(-4deg);
+}
+
+.hero__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.5rem 1rem 0.5rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--color-primary) 12%, transparent);
+  background: color-mix(in srgb, var(--color-beige) 20%, var(--color-white));
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.hero__grid {
+  flex: 1;
+  width: 100%;
+  max-width: var(--container-hero);
+  margin-inline: auto;
+  display: grid;
+  gap: var(--space-xl);
+  align-items: center;
+  padding-block: var(--space-xl) var(--space-md);
+}
+
+@media (min-width: 960px) {
+  .hero__grid {
+    grid-template-columns: 1fr 0.9fr;
+    gap: var(--space-lg);
+  }
+}
+
+.hero__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  margin-bottom: var(--space-sm);
+}
+
+.hero__eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-accent-yellow);
+  flex-shrink: 0;
+}
+
+.hero__headline {
+  max-width: 12ch;
+  margin-bottom: var(--space-md);
+}
+
+/* A highlighter-style mark rather than colored text — the accent yellows
+   are too light to use as text on white and stay within contrast
+   guidelines, but they work well as the palette's own "highlight" color
+   describes: a background swatch behind navy text. */
+.hero__headline-accent {
+  color: var(--color-primary);
+  background-image: linear-gradient(transparent 52%, var(--color-highlight-yellow) 52%);
+  background-repeat: no-repeat;
+  padding-inline: 0.08em;
+}
+
+.hero__lede {
+  max-width: 42ch;
+  font-size: clamp(1.05rem, 0.5vw + 1rem, 1.25rem);
+  color: color-mix(in srgb, var(--color-primary) 78%, transparent);
+  margin-bottom: var(--space-sm);
+}
+
+.hero__note {
+  max-width: 46ch;
+  font-size: 0.95rem;
+  color: color-mix(in srgb, var(--color-primary) 60%, transparent);
+  margin-bottom: var(--space-lg);
+}
+
+.hero__ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-xl);
+}
+
+.hero__signature {
+  height: 1.1rem;
+  width: auto;
+  opacity: 0.35;
+}
+
+/* Visual column */
+.hero__visual {
+  position: relative;
+  justify-self: center;
+  width: min(100%, 380px);
+}
+
+.hero__orbit {
+  position: absolute;
+  border: 1px solid color-mix(in srgb, var(--color-accent-yellow) 40%, transparent);
+  border-radius: 50%;
+}
+
+.hero__orbit--outer {
+  inset: -12%;
+  border-color: color-mix(in srgb, var(--color-accent-yellow) 22%, transparent);
+  animation: orbit-spin 90s linear infinite;
+}
+
+.hero__orbit--inner {
+  inset: -5%;
+  animation: orbit-spin 60s linear infinite reverse;
+}
+
+/* Approaching the portrait cluster speeds the rings up, like they're
+   waking up to meet you. */
+.hero__visual.is-active .hero__orbit--outer {
+  animation-duration: 36s;
+  border-color: color-mix(in srgb, var(--color-accent-yellow) 45%, transparent);
+}
+
+.hero__visual.is-active .hero__orbit--inner {
+  animation-duration: 22s;
+  border-color: color-mix(in srgb, var(--color-accent-yellow) 55%, transparent);
+}
+
+.hero__portrait-frame {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  aspect-ratio: 2 / 3;
+  box-shadow: 0 32px 64px -24px color-mix(in srgb, var(--color-primary) 25%, transparent);
+  transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.hero__portrait {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 15%;
+  transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hero__portrait-sheen {
+  position: absolute;
+  inset: -20%;
+  background: linear-gradient(
+    115deg,
+    transparent 40%,
+    color-mix(in srgb, var(--color-white) 55%, transparent) 50%,
+    transparent 60%
+  );
+  transform: translateX(-120%);
+  transition: transform 700ms ease;
+  pointer-events: none;
+}
+
+.hero__portrait-frame:hover .hero__portrait-sheen,
+.hero__portrait-frame:focus-within .hero__portrait-sheen {
+  transform: translateX(20%);
+}
+
+.hero__portrait-frame:hover .hero__portrait {
+  transform: scale(1.05);
+}
+
+.hero__tag {
+  display: none;
+  position: absolute;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.9rem;
+  border-radius: 999px;
+  background: var(--color-white);
+  box-shadow: 0 12px 24px -12px color-mix(in srgb, var(--color-primary) 30%, transparent);
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: default;
+  animation: tag-float 6s ease-in-out infinite;
+  transition: background 200ms ease, box-shadow 260ms ease, color 200ms ease;
+}
+
+/* Swapping the animation out (rather than just pausing it) lets the
+   plain `transform` below actually take effect — a paused keyframe
+   would otherwise keep winning the cascade for that property. */
+.hero__tag:hover {
+  animation: none;
+  transform: translateY(-6px) scale(1.06);
+  background: var(--color-accent-yellow);
+  box-shadow: 0 18px 32px -14px color-mix(in srgb, var(--color-primary) 38%, transparent);
+}
+
+/* The dot is also accent-yellow at rest — on the yellow hover background
+   it needs to switch to navy or it just disappears. */
+.hero__tag:hover .hero__tag-dot {
+  background: var(--color-primary);
+}
+
+.hero__tag-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-accent-yellow);
+}
+
+.hero__tag--1 {
+  top: 6%;
+  left: -8%;
+  animation-delay: 0s;
+}
+
+.hero__tag--2 {
+  top: 46%;
+  right: -14%;
+  animation-delay: 1.4s;
+}
+
+.hero__tag--3 {
+  bottom: 8%;
+  left: -4%;
+  animation-delay: 2.8s;
+}
+
+@media (min-width: 960px) {
+  .hero__tag {
+    display: inline-flex;
+  }
+}
+
+/* About */
+.about {
+  padding-block: var(--space-xl);
+  background: var(--color-white);
+}
+
+.about__inner {
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--space-md);
+  display: grid;
+  gap: var(--space-lg);
+  align-items: center;
+}
+
+.about__media {
+  justify-self: center;
+  width: min(100%, 320px);
+}
+
+.about__content h2 {
+  margin-bottom: var(--space-sm);
+}
+
+.about__content p + p {
+  margin-top: var(--space-sm);
+}
+
+@media (min-width: 900px) {
+  .about__inner {
+    grid-template-columns: 0.85fr 1.15fr;
+    gap: var(--space-xl);
+  }
+
+  .about__media {
+    justify-self: stretch;
+    width: 100%;
+  }
+}
+
+/* Footer — a quiet signature line, not a visible "section" */
+.site-footer {
+  background: var(--color-white);
+  color: color-mix(in srgb, var(--color-primary) 45%, transparent);
+  text-align: center;
+  padding-block: var(--space-sm);
+  font-size: 0.78rem;
+}
