@@ -32,6 +32,16 @@ Serves the built `dist/` output locally to sanity-check the production build.
 - Build output directory: `dist`
 - No environment variables or Functions required — this is a fully static site.
 
+## Deploying to GitHub Pages
+
+`.github/workflows/deploy.yml` builds and deploys automatically on every push to `main`, via GitHub's official `actions/deploy-pages`. One-time setup:
+
+1. Push this repo to GitHub.
+2. Repo **Settings → Pages → Source: GitHub Actions**.
+3. Push to `main` (or re-run the workflow from the Actions tab) — the site deploys itself.
+
+Custom domain: add `public/CNAME` containing just the domain (e.g. `luance.de`) — Vite copies it into `dist/` on build, which is where GitHub Pages expects it — then point DNS at GitHub's servers and set the domain under **Settings → Pages → Custom domain**. If deploying instead as a project page without a custom domain (`username.github.io/repo-name`), set `base: '/repo-name/'` in `vite.config.js` or every asset 404s.
+
 ## Fonts
 
 - **Inter** (body/UI/buttons) and **Playfair Display** (headline fallback) are self-hosted via `@fontsource` — no external font requests, no Google Fonts GDPR exposure, works offline and on Cloudflare Pages with zero extra config.
