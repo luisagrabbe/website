@@ -116,14 +116,15 @@
   }
 }
 
+/* A warm, sentence-case welcome line rather than a shouty uppercase
+   kicker — this now greets the visitor, it doesn't tag a category. */
 .hero__eyebrow {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 0.8rem;
+  font-size: 0.95rem;
   font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   color: var(--color-primary);
   margin-bottom: var(--space-sm);
 }
@@ -154,9 +155,13 @@
   padding-inline: 0.08em;
 }
 
+/* Widened and slightly toned down from the original one-line hero
+   subhead — this now carries a short personal intro paragraph instead of
+   a single punchy sentence, so it reads better with a bit more measure
+   and a touch less size. */
 .hero__lede {
-  max-width: 42ch;
-  font-size: clamp(1.05rem, 0.5vw + 1rem, 1.25rem);
+  max-width: 50ch;
+  font-size: clamp(1rem, 0.35vw + 0.95rem, 1.15rem);
   color: color-mix(in srgb, var(--color-primary) 78%, transparent);
   margin-bottom: var(--space-sm);
 }
@@ -173,12 +178,6 @@
   flex-wrap: wrap;
   gap: var(--space-sm);
   margin-bottom: var(--space-xl);
-}
-
-.hero__signature {
-  height: 1.1rem;
-  width: auto;
-  opacity: 0.35;
 }
 
 /* Visual column */

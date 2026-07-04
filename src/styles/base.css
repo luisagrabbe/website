@@ -1,29 +1,11 @@
-@import '@fontsource/playfair-display/500.css';
-@import '@fontsource/playfair-display/600.css';
-@import '@fontsource/playfair-display/600-italic.css';
+/* Only the italic cut of Castoro is loaded — headings only ever render
+   italic (see the h1/h2/h3 rule below), so the upright weight would just
+   be dead bytes. */
+@import '@fontsource/castoro/400-italic.css';
 @import '@fontsource/inter/400.css';
 @import '@fontsource/inter/500.css';
 @import '@fontsource/inter/600.css';
 @import '@fontsource/inter/700.css';
-
-/* PLACEHOLDER: licensed display font, files not yet added.
-   Drop the real files at these exact paths and the fallback
-   ('Playfair Display') stops being used automatically. */
-@font-face {
-  font-family: 'The Seasons';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('/assets/fonts/TheSeasons-Regular.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'The Seasons';
-  font-style: italic;
-  font-weight: 400;
-  font-display: swap;
-  src: url('/assets/fonts/TheSeasons-RegularItalic.woff2') format('woff2');
-}
 
 *,
 *::before,
@@ -49,8 +31,9 @@ h1,
 h2,
 h3 {
   font-family: var(--font-heading);
-  font-weight: 500;
-  line-height: 1.15;
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.25;
   font-synthesis: none;
 }
 

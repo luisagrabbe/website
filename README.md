@@ -44,34 +44,26 @@ Custom domain: add `public/CNAME` containing just the domain (e.g. `luance.de`) 
 
 ## Fonts
 
-- **Inter** (body/UI/buttons) and **Playfair Display** (headline fallback) are self-hosted via `@fontsource` — no external font requests, no Google Fonts GDPR exposure, works offline and on Cloudflare Pages with zero extra config.
-- **The Seasons** (licensed display font for headlines) is not included. `src/styles/base.css` declares `@font-face` rules pointing at:
-  - `public/assets/fonts/TheSeasons-Regular.woff2`
-  - `public/assets/fonts/TheSeasons-RegularItalic.woff2`
-
-  Drop the real files at those exact paths and the site switches over automatically — the `--font-heading` stack (`'The Seasons', 'Playfair Display', Georgia, serif`) already falls through to Playfair Display until then, so nothing else needs to change. If your licensed files use different weights/styles, add matching `@font-face` blocks the same way.
+- **Inter** (body/UI/buttons) and **Castoro** (headlines/display text) are self-hosted via `@fontsource` — no external font requests, no Google Fonts GDPR exposure, works offline and on Cloudflare Pages with zero extra config.
+- Headlines (`h1`/`h2`/`h3`) always render in Castoro's *italic* cut (`font-style: italic` is set directly in `src/styles/base.css`) for a consistent editorial look. Only `@fontsource/castoro/400-italic.css` is imported — Castoro ships just one weight (400), and the upright style is never used, so it's skipped to keep the font payload small.
 
 ## Assets in use
 
 - `public/assets/photos/luisa-portrait.jpg` — the Hero's main portrait
-- `public/assets/logo/luance-mark.png` — compact "LU" monogram, used in the topbar and as a small signature under the CTAs
+- `public/assets/logo/luance-mark.png` — compact "LU" monogram, used in the topbar, as a small signature under the CTAs, and as the source for the favicon set
 - `public/assets/logo/luance-lockup.png` — full "LUANCE Brand Design" lockup — not currently placed on the page, kept for when the site grows beyond a single Hero
 - `public/assets/photos/luisa-hero.jpg` — the wide editorial crop used by a previous full-bleed hero design; not referenced by the current markup, kept in case that direction comes back
 
-## Paused content
+## Favicon
 
-The site was previously a three-section page (Hero, About, Coming-soon). It's now a single Hero, and the About section's approved copy was removed from `index.html` rather than left commented out. If the full site comes back, this is the previously approved About-section copy (still needs Luisa's final sign-off):
+Generated from `public/assets/logo/luance-mark.png` (padded to a square canvas, then downsampled). PNG-only, no `.ico` — modern browsers don't need one. Regenerate after changing the source logo:
 
-> **Ich sehe dich – wirklich.**
->
-> Ich glaube daran, dass jede Selbstständige eine Marke verdient, die genauso einzigartig ist wie sie selbst. Deshalb schaue ich genau hin: auf deine Geschichte, deine Werte und das, was dich wirklich ausmacht.
->
-> Statt kurzlebigen Trends oder Branchenklischees zu folgen, baue ich deine Marke auf deiner Persönlichkeit auf – denn die bleibt, auch wenn sich Trends längst wieder verabschiedet haben.
+```bash
+sips -p 700 700 --padColor FFFFFF public/assets/logo/luance-mark.png --out /tmp/luance-mark-square.png
+sips -z 16 16   /tmp/luance-mark-square.png --out public/favicon-16x16.png
+sips -z 32 32   /tmp/luance-mark-square.png --out public/favicon-32x32.png
+sips -z 180 180 /tmp/luance-mark-square.png --out public/apple-touch-icon.png
+sips -z 192 192 /tmp/luance-mark-square.png --out public/android-chrome-192x192.png
+sips -z 512 512 /tmp/luance-mark-square.png --out public/android-chrome-512x512.png
+```
 
-It used `luisa-portrait.jpg` (now reused in the Hero) in a two-column layout with `.about`/`.about__inner`/`.about__media`/`.about__content` classes, still defined in `src/styles/layout.css` and `src/styles/components.css`.
-
-## Before launch checklist
-
-- [ ] Replace the placeholder URLs in `src/config.js` (`INSTAGRAM_URL`, `CALENDLY_URL`) with the real links.
-- [ ] Add the licensed "The Seasons" font files (see Fonts section above).
-- [ ] Decide whether/when the About section (and a real multi-section site) comes back — see "Paused content" above.
